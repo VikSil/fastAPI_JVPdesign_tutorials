@@ -1,5 +1,6 @@
 from enum import Enum
 from fastapi import FastAPI
+from pydantic import BaseModel
 from typing import Optional
 
 app = FastAPI()
@@ -86,6 +87,7 @@ async def get_something(required_query: str):
 
 # Type conversion
 
+
 # bool in the URL will convert from 1, true, on, yes - all case insenitive
 @app.get('/users/{user_id}/items/{item_id}')
 async def get_user_item(user_id: int, item_id: str, required_q: str, q: str | None = None, short: bool = False):
@@ -96,3 +98,33 @@ async def get_user_item(user_id: int, item_id: str, required_q: str, q: str | No
         item.update({'description': 'Lorem ipsum dolor sit'})
 
     return item
+
+
+# Request body
+
+
+class Item(BaseModel):
+    name: str
+    description: Optional[str] = None
+    price: float
+    tax: int | None = None  # python 3.10+
+
+
+@app.post('/items')
+async def create_item(item: Item):
+    item_dict = item.model_dump()  # previously .dict()
+
+    if item.tax:
+        price_with_tax = item.price + item.tax
+        item_dict.update({'price_with_tax': price_with_tax})
+
+    return item_dict
+
+
+@app.put('/items/{item_id}')
+async def create_item_with_id(item_id: int, item: Item, q: str | None = None):
+    result = {'item_id': item_id, **item.model_dump()}
+    if q:
+        result.update({'q': q})
+
+    return result
