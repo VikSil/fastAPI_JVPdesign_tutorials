@@ -1,5 +1,5 @@
 from enum import Enum
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from pydantic import BaseModel
 from typing import Optional
 
@@ -85,9 +85,55 @@ async def get_something(required_query: str):
     return {'item': message}
 
 
+@app.get('/lux_items')
+async def read_items(
+    q1: str | None = Query(None, min_length=3, max_length=10),
+    q2: str = Query('default_value', regex='^\w+$'),
+    q3: list[str] | None = Query(['default', 'for a ', 'query', 'with', 'multiple', 'values']),
+):
+    results = {'items': [{'item_id': 'foo'}, {'item_id': 'bar'}], 'q2': q2}
+
+    if q1:
+        results.update({'q1': q1})
+
+    return results
+
+
+@app.get('/more_items')
+async def more_items(required_validated_query_with_no_default_value: str = Query(..., min_length=3, max_length=10)):
+
+    results = {'items': [{'item_id': 'foo'}, {'item_id': 'bar'}], 'q': required_validated_query_with_no_default_value}
+
+    return results
+
+
+@app.get('/metadata')
+async def metadata(
+    q: str | None = Query(
+        None,
+        min_length=3,
+        max_length=10,
+        title='Query with metadata',
+        desc='This is a query with some metadata',
+        depricated=True,
+        alias='url-slug-with-dashes',
+    )
+):
+
+    results = {'items': [{'item_id': 'foo'}, {'item_id': 'bar'}], 'q': q}
+
+    return results
+
+
+@app.get('/hidden_items')
+async def hidden_query(hidden_query: str | None = Query(None, include_in_schema=False)):
+    if hidden_query:
+        return {'hidden_query': hidden_query}
+
+    return {'hidden_query': 'Not found'}
+
+
 # Type conversion
-
-
 # bool in the URL will convert from 1, true, on, yes - all case insenitive
 @app.get('/users/{user_id}/items/{item_id}')
 async def get_user_item(user_id: int, item_id: str, required_q: str, q: str | None = None, short: bool = False):
