@@ -1,5 +1,5 @@
 from enum import Enum
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Path
 from pydantic import BaseModel
 from typing import Optional
 
@@ -60,6 +60,22 @@ async def get_food(food_name: FoodEnum):
         return {'food_name': food_name, 'message': 'tasty'}
 
     return {'food_name': food_name, 'message': 'this is nuts'}
+
+
+@app.get('/item_validation/{item_id}')
+async def read_item_validation(
+    *,  # makes everything that follows a kwarg
+    # Path allows to validate path variables
+    item_id: int = Path(..., title='the ID of the item', ge=10),  # ge = greater-or-equal
+    q: str,  # now it is a required kwarg and can follow assigned arguments without having a value itself
+):
+
+    result = {'item_id': item_id}
+
+    if q:
+        result.update({'q': q})
+
+    return result
 
 
 # Query parameters
