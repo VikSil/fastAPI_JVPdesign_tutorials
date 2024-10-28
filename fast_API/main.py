@@ -2,6 +2,7 @@
 from fastapi import FastAPI
 
 # local modules
+
 from lessons import (
     _01_get_post_put,
     _02_path_parameters,
@@ -32,3 +33,4 @@ app.include_router(_10_body_example.router)
 app.include_router(_11_extra_data_types.router)
 app.include_router(_12_cookies_and_headers.router)
 app.include_router(_13_response_model.router)
+
