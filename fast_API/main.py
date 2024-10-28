@@ -10,7 +10,8 @@ from lessons import (
     _05_type_conversion,
     _07_multiple_body_params,
     _08_body_fields,
-    _09_body_nested_models
+    _09_body_nested_models,
+    _10_body_example
 )
 
 
@@ -24,3 +25,4 @@ app.include_router(_05_type_conversion.router)
 app.include_router(_07_multiple_body_params.router)
 app.include_router(_08_body_fields.router)
 app.include_router(_09_body_nested_models.router)
+app.include_router(_10_body_example.router)
