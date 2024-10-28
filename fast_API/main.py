@@ -13,7 +13,8 @@ from lessons import (
     _09_body_nested_models,
     _10_body_example,
     _11_extra_data_types,
-    _12_cookies_and_headers
+    _12_cookies_and_headers,
+    _13_response_model
 )
 
 
@@ -30,3 +31,4 @@ app.include_router(_09_body_nested_models.router)
 app.include_router(_10_body_example.router)
 app.include_router(_11_extra_data_types.router)
 app.include_router(_12_cookies_and_headers.router)
+app.include_router(_13_response_model.router)
