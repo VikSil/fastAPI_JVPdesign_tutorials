@@ -11,7 +11,8 @@ from lessons import (
     _07_multiple_body_params,
     _08_body_fields,
     _09_body_nested_models,
-    _10_body_example
+    _10_body_example,
+    _11_extra_data_types
 )
 
 
@@ -26,3 +27,4 @@ app.include_router(_07_multiple_body_params.router)
 app.include_router(_08_body_fields.router)
 app.include_router(_09_body_nested_models.router)
 app.include_router(_10_body_example.router)
+app.include_router(_11_extra_data_types.router)
