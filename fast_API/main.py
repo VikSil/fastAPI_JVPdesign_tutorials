@@ -27,7 +27,8 @@ from lessons import (
     _16_form_fields,
     _17_request_files,
     _20_docs_configuration,
-    _21_json_manipulations
+    _21_json_manipulations,
+    _22_dependencies
 )
 
 
@@ -51,6 +52,7 @@ app.include_router(_16_form_fields.router)
 app.include_router(_17_request_files.router)
 app.include_router(_20_docs_configuration.router)
 app.include_router(_21_json_manipulations.router)
+app.include_router(_22_dependencies.router)
 
 
 # ========================================
