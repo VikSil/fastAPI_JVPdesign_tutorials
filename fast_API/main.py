@@ -18,7 +18,8 @@ from lessons import (
     _13_response_model,
     _14_union_types,
     _15_response_status_codes,
-    _16_form_fields
+    _16_form_fields,
+    _17_request_files
 )
 
 
@@ -39,3 +40,4 @@ app.include_router(_13_response_model.router)
 app.include_router(_14_union_types.router)
 app.include_router(_15_response_status_codes.router)
 app.include_router(_16_form_fields.router)
+app.include_router(_17_request_files.router)
