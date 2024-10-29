@@ -26,7 +26,8 @@ from lessons import (
     _15_response_status_codes,
     _16_form_fields,
     _17_request_files,
-    _20_docs_configuration
+    _20_docs_configuration,
+    _21_json_manipulations
 )
 
 
@@ -49,6 +50,7 @@ app.include_router(_15_response_status_codes.router)
 app.include_router(_16_form_fields.router)
 app.include_router(_17_request_files.router)
 app.include_router(_20_docs_configuration.router)
+app.include_router(_21_json_manipulations.router)
 
 
 # ========================================
