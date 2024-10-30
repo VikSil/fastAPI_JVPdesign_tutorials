@@ -1,14 +1,12 @@
 # global libraries
 from fastapi import FastAPI, Request, status
 from fastapi.encoders import jsonable_encoder
-from fastapi.exception_handlers import http_exception_handler, request_validation_exception_handler
+from fastapi.exception_handlers import (
+    http_exception_handler,
+    request_validation_exception_handler,
+)
 from fastapi.exceptions import HTTPException, RequestValidationError
 from fastapi.responses import JSONResponse, PlainTextResponse
-from pydantic import BaseModel
-from starlette.exceptions import HTTPException as StarletteHTTPException
-
-# local modules
-
 from lessons import (
     _01_get_post_put,
     _02_path_parameters,
@@ -32,8 +30,13 @@ from lessons import (
     _23_class_dependencies,
     _24_subdependencies,
     _25_depencies_in_path,
-    _26_security
+    # _26_security, # cannot work together with _27_security_with_JWT
+    _27_security_with_JWT,
 )
+from pydantic import BaseModel
+from starlette.exceptions import HTTPException as StarletteHTTPException
+
+# local modules
 
 
 app = FastAPI()
@@ -60,7 +63,8 @@ app.include_router(_22_dependencies.router)
 app.include_router(_23_class_dependencies.router)
 app.include_router(_24_subdependencies.router)
 app.include_router(_25_depencies_in_path.router)
-app.include_router(_26_security.router)
+# app.include_router(_26_security.router) # cannot work together with _27_security_with_JWT
+app.include_router(_27_security_with_JWT.router)
 
 # ========================================
 #  For lesson 19 on Exception handling
