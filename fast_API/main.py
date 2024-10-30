@@ -1,4 +1,3 @@
-# global libraries
 from fastapi import FastAPI, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exception_handlers import (
@@ -6,7 +5,9 @@ from fastapi.exception_handlers import (
     request_validation_exception_handler,
 )
 from fastapi.exceptions import HTTPException, RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, PlainTextResponse
+
 from lessons import (
     _01_get_post_put,
     _02_path_parameters,
@@ -35,9 +36,8 @@ from lessons import (
 )
 from pydantic import BaseModel
 from starlette.exceptions import HTTPException as StarletteHTTPException
-
-# local modules
-
+from starlette.middleware.base import BaseHTTPMiddleware
+import time
 
 app = FastAPI()
 
@@ -65,6 +65,7 @@ app.include_router(_24_subdependencies.router)
 app.include_router(_25_depencies_in_path.router)
 # app.include_router(_26_security.router) # cannot work together with _27_security_with_JWT
 app.include_router(_27_security_with_JWT.router)
+
 
 # ========================================
 #  For lesson 19 on Exception handling
@@ -167,3 +168,33 @@ app.include_router(_27_security_with_JWT.router)
 #         raise HTTPException(status_code=418, detail='We do not like three')
 
 #     return {'item_id': item_id}
+
+
+# ========================================
+#  For lesson 28 on Middleware and CORS
+# ========================================
+
+
+class MyMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        start_time = time.time()
+        response = await call_next(request)
+        process_time = time.time() - start_time
+        response.headers['X-Process-Time'] = str(process_time)
+
+        return response
+
+
+origins = [
+    'http://localhost:8011',
+    'http://127.0.0.1:8011',
+]
+
+# APIRouter does not have add_middleware, only FastAPI does
+app.add_middleware(MyMiddleware)
+app.add_middleware(CORSMiddleware, allow_origins=origins)
+
+
+@app.get('/middleware_blah')
+async def blah():
+    return {'hello': 'world'}
