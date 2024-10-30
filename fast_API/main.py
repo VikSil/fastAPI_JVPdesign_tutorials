@@ -30,7 +30,8 @@ from lessons import (
     _21_json_manipulations,
     _22_dependencies,
     _23_class_dependencies,
-    _24_subdependencies
+    _24_subdependencies,
+    _25_depencies_in_path
 )
 
 
@@ -57,6 +58,7 @@ app.include_router(_21_json_manipulations.router)
 app.include_router(_22_dependencies.router)
 app.include_router(_23_class_dependencies.router)
 app.include_router(_24_subdependencies.router)
+app.include_router(_25_depencies_in_path.router)
 
 
 # ========================================
