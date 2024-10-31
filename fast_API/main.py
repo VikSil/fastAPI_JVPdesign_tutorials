@@ -35,6 +35,7 @@ from lessons import (
     # _26_security, # cannot work together with _27_security_with_JWT
     _27_security_with_JWT,
     _31_background_tasks,
+    _33_testing,
 )
 from pydantic import BaseModel
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -68,7 +69,7 @@ app.include_router(_25_depencies_in_path.router)
 # app.include_router(_26_security.router) # cannot work together with _27_security_with_JWT
 app.include_router(_27_security_with_JWT.router)
 app.include_router(_31_background_tasks.router)
-
+app.include_router(_33_testing.router)
 
 # app.mount('/static', StaticFiles(directory='./lessons/static'), name='static')
 
