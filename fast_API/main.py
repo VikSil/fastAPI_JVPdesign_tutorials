@@ -7,6 +7,7 @@ from fastapi.exception_handlers import (
 from fastapi.exceptions import HTTPException, RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi.staticfiles import StaticFiles
 
 from lessons import (
     _01_get_post_put,
@@ -33,7 +34,7 @@ from lessons import (
     _25_depencies_in_path,
     # _26_security, # cannot work together with _27_security_with_JWT
     _27_security_with_JWT,
-    _31_background_tasks
+    _31_background_tasks,
 )
 from pydantic import BaseModel
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -68,6 +69,8 @@ app.include_router(_25_depencies_in_path.router)
 app.include_router(_27_security_with_JWT.router)
 app.include_router(_31_background_tasks.router)
 
+
+# app.mount('/static', StaticFiles(directory='./lessons/static'), name='static')
 
 # ========================================
 #  For lesson 19 on Exception handling
@@ -200,3 +203,11 @@ app.add_middleware(CORSMiddleware, allow_origins=origins)
 @app.get('/middleware_blah')
 async def blah():
     return {'hello': 'world'}
+
+
+# ========================================
+#  For lesson 33 on Static files
+# ========================================
+
+#  StaticFiles cannot be mounted onto an APIRouter, only onto FastAPI
+app.mount('/static', StaticFiles(directory='./static'), name='static')
